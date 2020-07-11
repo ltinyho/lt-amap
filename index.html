@@ -5,7 +5,9 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>gps vr</title>
+  <title>gps 转高德坐标</title>
+  <meta name="description" content="gps,高德地图,gps 转高德坐标, 高德坐标 demo">
+  <meta name="keyword" content="gps,高德地图,gps 转高德坐标, 高德坐标 demo">
   <style>
     #container {
       position: absolute;
@@ -47,7 +49,7 @@
       if (result.info === 'ok') {
         var lnglat = result.locations[0]; // Array.<LngLat>
         amapInput.value = lnglat.R + ',' + lnglat.Q;
-        if(marker){
+        if (marker) {
           map.remove(marker);
         }
         marker = new AMap.Marker({
