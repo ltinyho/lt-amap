@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>gps vr</title>
+  <style>
+    #container {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80%;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <div>
+    GPS坐标:<input id="gps" type="text" style="width: 250px" placeholder="示例: 116.397428, 39.90923 经度在前">
+    <button id="convert">转换</button>
+  </div>
+  <div>
+    高德坐标:<input id="amap" style="width: 250px" type="text" placeholder="转换结果" readonly>
+  </div>
+</div>
+<div id="container"></div>
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.15&key=18c31900a83ef0c9eb1642e3e30d4221"></script>
+<script>
+  var map = new AMap.Map('container', {
+    zoom: 11,//级别
+    center: [116.397428, 39.90923],//中心点坐标
+    viewMode: '3D',//使用3D视图
+  });
+  AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {//异步同时加载多个插件
+    var toolbar = new AMap.ToolBar();
+    map.addControl(toolbar);
+  });
+  var marker = null;
+  var btn = document.getElementById('convert');
+  btn.onclick = function () {
+    var gpsInput = document.getElementById('gps');
+    var amapInput = document.getElementById('amap');
+    var gps = gpsInput.value.split(',');
+    AMap.convertFrom(gps, 'gps', function (status, result) {
+      if (result.info === 'ok') {
+        var lnglat = result.locations[0]; // Array.<LngLat>
+        amapInput.value = lnglat.R + ',' + lnglat.Q;
+        if(marker){
+          map.remove(marker);
+        }
+        marker = new AMap.Marker({
+          position: [lnglat.R, lnglat.Q],
+          map: map,
+        });
+        map.setFitView();
+      }
+    });
+  };
+
+</script>
+<div style="display: none">
+  <script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1279070196&web_id=1279070196"></script>
+</div>
+</body>
+</html>
